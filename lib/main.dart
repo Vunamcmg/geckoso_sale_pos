@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import "package:pos/routes.dart";
 
 void main() {
   runApp(const MyApp());
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'GECKOSO POS'),
+      routes: routes,
     );
   }
 }
@@ -98,36 +100,78 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisSpacing: 10,
           // maxCrossAxisExtent: 300.0,
           children: <Widget>[
-            Container(
-              padding: const EdgeInsets.all(6),
-              child: const Text("Bán hàng", style: TextStyle(fontSize: 20, color: Color(0xfff2f2f2))),
-              color: const Color(0xffce0832),
+            InkWell(
+              child: Container(
+                padding: const EdgeInsets.all(6),
+                child: const Text("Bán hàng",
+                    style: TextStyle(fontSize: 20, color: Color(0xfff2f2f2))),
+                color: const Color(0xffce0832),
+              ),
+              onTap: () {
+                // Navigate to the second screen using a named route.
+                Navigator.pushNamed(context, '/sale');
+              },
             ),
-            Container(
-              padding: const EdgeInsets.all(6),
-              child: const Text('Sản phẩm', style: TextStyle(fontSize: 20, color: Color(0xfff2f2f2))),
-              color: const Color(0xffce0832),
+            InkWell(
+              child: Container(
+                padding: const EdgeInsets.all(6),
+                child: const Text('Sản phẩm',
+                    style: TextStyle(fontSize: 20, color: Color(0xfff2f2f2))),
+                color: const Color(0xffce0832),
+              ),
+              onTap: () {
+                // Navigate to the second screen using a named route.
+                Navigator.pushNamed(context, '/product');
+              },
             ),
-            Container(
-              padding: const EdgeInsets.all(6),
-              child: const Text('Khách hàng', style: TextStyle(fontSize: 20, color: Color(0xfff2f2f2))),
-              color: const Color(0xffce0832),
+            InkWell(
+              child: Container(
+                padding: const EdgeInsets.all(6),
+                child: const Text('Khách hàng',
+                    style: TextStyle(fontSize: 20, color: Color(0xfff2f2f2))),
+                color: const Color(0xffce0832),
+              ),
+              onTap: () {
+                // Navigate to the second screen using a named route.
+                Navigator.pushNamed(context, '/customer');
+              },
             ),
-            Container(
-              padding: const EdgeInsets.all(6),
-              child: const Text('Hoá đơn', style: TextStyle(fontSize: 20, color: Color(0xfff2f2f2))),
-              color: const Color(0xffce0832),
+            InkWell(
+              child: Container(
+                padding: const EdgeInsets.all(6),
+                child: const Text('Đơn hàng',
+                    style: TextStyle(fontSize: 20, color: Color(0xfff2f2f2))),
+                color: const Color(0xffce0832),
+              ),
+              onTap: () {
+                // Navigate to the second screen using a named route.
+                Navigator.pushNamed(context, '/order');
+              },
             ),
-            Container(
-              padding: const EdgeInsets.all(6),
-              child: const Text('Nhân viên', style: TextStyle(fontSize: 20, color: Color(0xfff2f2f2))),
-              color: const Color(0xffce0832),
+            InkWell(
+              child: Container(
+                padding: const EdgeInsets.all(6),
+                child: const Text('Nhân viên',
+                    style: TextStyle(fontSize: 20, color: Color(0xfff2f2f2))),
+                color: const Color(0xffce0832),
+              ),
+              onTap: () {
+                // Navigate to the second screen using a named route.
+                Navigator.pushNamed(context, '/employee');
+              },
             ),
-            Container(
-              padding: const EdgeInsets.all(6),
-              child: const Text('Thiết lập', style: TextStyle(fontSize: 20, color: Color(0xfff2f2f2))),
-              color: const Color(0xffce0832),
-            )
+            InkWell(
+              child: Container(
+                padding: const EdgeInsets.all(6),
+                child: const Text('Thiết lập',
+                    style: TextStyle(fontSize: 20, color: Color(0xfff2f2f2))),
+                color: const Color(0xffce0832),
+              ),
+              onTap: () {
+                // Navigate to the second screen using a named route.
+                Navigator.pushNamed(context, '/setting');
+              },
+            ),
           ],
         ),
         // child: Column(
