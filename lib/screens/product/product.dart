@@ -1,5 +1,6 @@
 import "package:flutter/widgets.dart";
 import 'package:flutter/material.dart';
+import 'package:pos/components/footer.dart';
 import 'package:pos/models/product.dart';
 
 class Product extends StatelessWidget {
@@ -7,117 +8,194 @@ class Product extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
           title: const Text('SẢN PHẨM',
               style: TextStyle(fontSize: 24, color: Colors.black)),
           backgroundColor: Colors.white,
           toolbarHeight: 80,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
         ),
-        body: Row(
-          children: [
-            Expanded(
-              flex: 8,
-              child: Container(
-                // Center is a layout widget. It takes a single child and positions it
-                // in the middle of the parent.
-                color: const Color(0xfff9fafb),
+        bottomNavigationBar: Footer(),
+        body: Container(
+          padding: const EdgeInsets.fromLTRB(48, 8, 38, 8),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 8,
+                child: Column(
+                  children: [
+                    const SearchBox(),
+                    Container(
+                      height: 80,
+                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                      child: Positioned(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: InkWell(
+                                  onTap: () {},
+                                  onHover: (value) {},
+                                  child: Text("Tủ lạnh",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold))),
+                            ),
+                            Expanded(
+                                flex: 2,
+                                child: Text("Máy giặt",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold))),
+                            Expanded(
+                                flex: 2,
+                                child: Text("Điều hoà",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold))),
+                            Expanded(
+                                flex: 2,
+                                child: Text("Tivi",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold)))
+                          ],
+                        ),
+                      ),
+                    ),
+                    ProductLists(size: size, products: products),
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 4, // 20%
                 child: Container(
-                    width: 1000,
-                    height: 1000,
+                  color: Colors.white,
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Chưa chọn sản phẩm nào",
+                    style: const TextStyle(fontSize: 20, color: Colors.black),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ));
+  }
+}
+
+class ProductLists extends StatelessWidget {
+  const ProductLists({
+    Key? key,
+    required this.size,
+    required this.products,
+  }) : super(key: key);
+
+  final Size size;
+  final List<ProductModel> products;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        height: size.height * 0.7,
+        padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+        child: Container(
+          child: GridView.builder(
+            itemCount: products.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: 9 / 10,
+                crossAxisSpacing: 4.0,
+                mainAxisSpacing: 4.0),
+            itemBuilder: (BuildContext context, int index) {
+              return InkWell(
+                child: Container(
+                    margin: const EdgeInsets.fromLTRB(8, 8, 8, 8),
                     padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                    child: Column(children: [
-                      Container(color: Colors.red),
-                      GridView.builder(
-                        itemCount: products.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
-                                childAspectRatio: 9 / 10,
-                                crossAxisSpacing: 4.0,
-                                mainAxisSpacing: 4.0),
-                        itemBuilder: (BuildContext context, int index) {
-                          return InkWell(
-                            child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(4),
+                        border: Border.all(color: Colors.grey)),
+                    height: 600,
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Image.network(products[index].thumbnail,
+                                height: 300, width: 300, fit: BoxFit.fill),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            Flexible(
+                              child: Container(
                                 margin: const EdgeInsets.fromLTRB(8, 8, 8, 8),
                                 padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(color: Colors.grey)),
-                                height: 600,
-                                child: Column(
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Image.network(products[index].thumbnail,
-                                            height: 300,
-                                            width: 300,
-                                            fit: BoxFit.fill),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: <Widget>[
-                                        Flexible(
-                                          child: Container(
-                                            margin: const EdgeInsets.fromLTRB(
-                                                8, 8, 8, 8),
-                                            padding: const EdgeInsets.fromLTRB(
-                                                8, 8, 8, 8),
-                                            child: Text(products[index].name,
-                                                textAlign: TextAlign.center,
-                                                style: const TextStyle(
-                                                    fontSize: 20,
-                                                    color: Color(0xff000000))),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: <Widget>[
-                                        Flexible(
-                                          child: Text(products[index].price,
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                  fontSize: 20,
-                                                  color: Colors.black)),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                            onTap: () {
-                              // Navigate to the second screen using a named route.
-                              Navigator.pushNamed(context, '/setting');
-                            },
-                            // child: <Widget>[
-                            //   Text(products[index].name,
-                            //       style: const TextStyle(
-                            //           fontSize: 20, color: Color(0xfff2f2f2))),
-                            // ],
-                            // color: const Color(0xfffffff),
-                          );
-                        },
-                      )
-                    ])),
-              ),
-            ),
-            Expanded(
-              flex: 4, // 20%
-              child: Container(color: Colors.white),
-            )
-          ],
+                                child: Text(products[index].name,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        color: Color(0xff000000))),
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            Flexible(
+                              child: Text(products[index].price,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      fontSize: 20, color: Colors.red)),
+                            )
+                          ],
+                        ),
+                      ],
+                    )),
+                onTap: () {
+                  // Navigate to the second screen using a named route.
+                  Navigator.pushNamed(context, '/setting');
+                },
+              );
+            },
+          ),
         ));
+  }
+}
+
+class SearchBox extends StatelessWidget {
+  const SearchBox({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 100,
+      child: Positioned(
+          child: Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+              height: 54,
+              child: TextField(
+                decoration: InputDecoration(
+                    hintText: "Tìm kiếm sản phẩm",
+                    hintStyle: TextStyle(color: Colors.black)),
+              ),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8)))),
+    );
   }
 }
