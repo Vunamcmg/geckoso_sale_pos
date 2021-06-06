@@ -14,43 +14,54 @@ class Footer extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              Icon(
-                Icons.shopping_cart,
-                color: Colors.grey,
-                size: 24.0,
-                semanticLabel: 'Text to announce in accessibility modes',
-              ),
-              Text(" Bán hàng", style: TextStyle(fontSize: 24)),
-            ],
-          ),
-          // Spacer(),
-          Row(
-            children: [
-              Icon(
+          const FooterSection(
+              title: "Bán hàng",
+              navigator: "/sale",
+              icon: Icon(Icons.shopping_cart, color: Colors.grey, size: 24.0)),
+          const FooterSection(
+              title: "Đơn hàng",
+              navigator: "/order",
+              icon: Icon(
                 Icons.shopping_bag,
                 color: Colors.grey,
                 size: 24.0,
                 semanticLabel: 'Text to announce in accessibility modes',
-              ),
-              Text(" Đơn hàng", style: TextStyle(fontSize: 24)),
-            ],
-          ),
-          // Spacer(),
-          Row(
-            children: [
-              Icon(
+              )),
+          const FooterSection(
+              title: "Sản phẩm",
+              navigator: "/product",
+              icon: Icon(
                 Icons.store,
                 color: Colors.grey,
                 size: 24.0,
                 semanticLabel: 'Text to announce in accessibility modes',
-              ),
-              Text(" Sản phẩm", style: TextStyle(fontSize: 24)),
-            ],
-          ),
+              )),
         ],
       ),
     );
+  }
+}
+
+class FooterSection extends StatelessWidget {
+  const FooterSection(
+      {Key? key,
+      this.icon =
+          const Icon(Icons.shopping_cart, color: Colors.grey, size: 24.0),
+      this.title = "Bán hàng",
+      this.navigator = "/sale"})
+      : super(key: key);
+  final Icon icon;
+  final String title;
+  final String navigator;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+        onTap: () => {Navigator.pushNamed(context, navigator)},
+        child: Row(
+          children: [
+            icon,
+            Text(" $title", style: TextStyle(fontSize: 24)),
+          ],
+        ));
   }
 }

@@ -1,15 +1,13 @@
 import "package:flutter/widgets.dart";
 import 'package:flutter/material.dart';
+import 'package:pos/components/appbar.dart';
 import 'package:pos/components/footer.dart';
 
 class Employee extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Employee'),
-        backgroundColor: const Color(0xff222428),
-      ),
+      appBar: buildAppBar(context, "NHÂN VIÊN"),
       bottomNavigationBar: Footer(),
       body: Center(
         child: ElevatedButton(
