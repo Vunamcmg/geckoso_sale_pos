@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pos/components/appbar.dart';
 import 'package:pos/components/footer.dart';
 import 'package:pos/components/searchBox.dart';
+import 'package:pos/models/customer.dart';
 import 'package:pos/models/product.dart';
 
 class Sale extends StatefulWidget {
@@ -36,6 +37,9 @@ class CartItem {
 
 class SalePageState extends State<Sale> {
   final products = ProductModel.productsGenerate();
+  final customers = CustomerModel.generate();
+
+  CustomerModel? selectedCustomer;
   List<CartItem> items = [];
   int totalAmount = 0;
   int subTotalAmount = 0;
@@ -102,32 +106,160 @@ class SalePageState extends State<Sale> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final dialog = SimpleDialog(
-      title: Text('Set backup account'),
+      title: Text('TÌM KIẾM VOUCHER'),
       children: [
-        SimpleDialogItem(
-          icon: Icons.account_circle,
-          color: Colors.orange,
-          text: 'user01@gmail.com',
-          onPressed: () {
-            Navigator.pop(context, 'user01@gmail.com');
-          },
+        SearchBox(),
+        Container(
+          width: size.width * 0.4,
+          child: Column(
+            children: [
+              Container(
+                  alignment: Alignment.topLeft,
+                  padding: EdgeInsets.only(left: 16, right: 16),
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'DATTIEC ',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.black),
+                      children: const <TextSpan>[
+                        TextSpan(
+                          text: '\n',
+                        ),
+                        TextSpan(
+                            text: 'Giảm 200.000đ cho đơn hàng từ 1.000.000đ',
+                            style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 16,
+                                color: Colors.black)),
+                      ],
+                    ),
+                  ))
+            ],
+          ),
         ),
-        SimpleDialogItem(
-          icon: Icons.account_circle,
-          color: Colors.green,
-          text: 'user02@gmail.com',
-          onPressed: () {
-            Navigator.pop(context, 'user02@gmail.com');
-          },
+        Divider(),
+        Container(
+          alignment: Alignment.topLeft,
+          padding: EdgeInsets.only(left: 16, right: 16),
+          child: Row(
+            children: [
+              Container(
+                width: 120,
+                height: 40,
+                child: OutlinedButton(
+                  onPressed: () {},
+                  child: Text("Thoát"),
+                  style: OutlinedButton.styleFrom(
+                      primary: Colors.white, backgroundColor: Colors.grey),
+                ),
+              ),
+              Spacer(),
+              Container(
+                width: 120,
+                height: 40,
+                child: OutlinedButton(
+                  onPressed: () {},
+                  child: Text("Chọn"),
+                  style: OutlinedButton.styleFrom(
+                      primary: Colors.white, backgroundColor: Colors.red),
+                ),
+              )
+            ],
+          ),
+        )
+      ],
+    );
+    final customerDialog = SimpleDialog(
+      title: Text('TÌM KIẾM KHÁCH HÀNG'),
+      children: [
+        SearchBox(),
+        Container(
+          width: size.width * 0.4,
+          child: ListView.separated(
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, int index) {
+                return Row(
+                  children: [
+                    Container(
+                      width: 100,
+                      height: 100,
+                      padding: EdgeInsets.all(16),
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(customers[index].avatar),
+                      ),
+                    ),
+                    Container(
+                        width: 300,
+                        height: 100,
+                        padding: EdgeInsets.all(16),
+                        alignment: Alignment.topLeft,
+                        child: RichText(
+                          text: TextSpan(
+                            text: customers[index].firstName +
+                                " " +
+                                customers[index].lastName,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.black),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: '\n',
+                              ),
+                              TextSpan(
+                                  text: customers[index].phone,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 16,
+                                      color: Colors.black)),
+                            ],
+                          ),
+                        )),
+                    Spacer(),
+                    Container(
+                      padding: EdgeInsets.all(16),
+                      alignment: Alignment.topLeft,
+                      child: Text(customers[index].address),
+                    )
+                  ],
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider(),
+              itemCount: customers.length),
         ),
-        SimpleDialogItem(
-          icon: Icons.add_circle,
-          color: Colors.grey,
-          text: 'Add account',
-          onPressed: () {
-            Navigator.pop(context, 'user02@gmail.com');
-          },
-        ),
+        Divider(),
+        Container(
+          alignment: Alignment.topLeft,
+          padding: EdgeInsets.only(left: 16, right: 16),
+          child: Row(
+            children: [
+              Container(
+                width: 120,
+                height: 40,
+                child: OutlinedButton(
+                  onPressed: () {},
+                  child: Text("Thoát"),
+                  style: OutlinedButton.styleFrom(
+                      primary: Colors.white, backgroundColor: Colors.grey),
+                ),
+              ),
+              Spacer(),
+              Container(
+                width: 120,
+                height: 40,
+                child: OutlinedButton(
+                  onPressed: () {},
+                  child: Text("Chọn"),
+                  style: OutlinedButton.styleFrom(
+                      primary: Colors.white, backgroundColor: Colors.red),
+                ),
+              )
+            ],
+          ),
+        )
       ],
     );
     return Scaffold(
@@ -332,7 +464,7 @@ class SalePageState extends State<Sale> {
                               onTap: () {
                                 showDialog<void>(
                                     context: context,
-                                    builder: (context) => dialog);
+                                    builder: (context) => customerDialog);
                               },
                               child: Text("Chọn khách hàng",
                                   style: TextStyle(color: Colors.red)),
