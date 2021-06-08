@@ -2,6 +2,7 @@ import "package:flutter/widgets.dart";
 import 'package:flutter/material.dart';
 import 'package:pos/components/appbar.dart';
 import 'package:pos/components/footer.dart';
+import 'package:pos/components/searchBox.dart';
 import 'package:pos/models/product.dart';
 
 class Product extends StatefulWidget {
@@ -19,7 +20,6 @@ class ProductPageState extends State<Product> {
   void viewProductDetail(String productId) {
     final productItem =
         products.singleWhere((element) => element.id == productId);
-    print('Return product: ${productItem}');
     setState(() {
       isSelectProduct = true;
       product = productItem;
@@ -97,65 +97,7 @@ class ProductPageState extends State<Product> {
                   // ),
 
                   child: isSelectProduct
-                      ? Container(
-                          child: Column(
-                            children: <Widget>[
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Image.network(product!.thumbnail,
-                                      height: 300,
-                                      width: 300,
-                                      fit: BoxFit.fill),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: <Widget>[
-                                  Flexible(
-                                    child: Container(
-                                      margin:
-                                          const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                                      padding:
-                                          const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                                      child: Text(product!.name,
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                              fontSize: 20,
-                                              color: Color(0xff000000))),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: <Widget>[
-                                  Flexible(
-                                    child: Text(product!.price,
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                            fontSize: 20, color: Colors.red)),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: <Widget>[
-                                  Flexible(
-                                    child: Text(product!.shortDescription,
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                            fontSize: 20, color: Colors.red)),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        )
+                      ? ProductDetailCard(product: product)
                       : Text(
                           "Chưa chọn sản phẩm nào",
                           style: const TextStyle(
@@ -166,6 +108,100 @@ class ProductPageState extends State<Product> {
             ],
           ),
         ));
+  }
+}
+
+class ProductDetailCard extends StatelessWidget {
+  const ProductDetailCard({
+    Key? key,
+    required this.product,
+  }) : super(key: key);
+
+  final ProductModel? product;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          SizedBox(
+            height: 100,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Image.network(product!.thumbnail,
+                  // height: 300,
+                  // width: 300,
+                  fit: BoxFit.cover),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Flexible(
+                child: Container(
+                  margin: const EdgeInsets.fromLTRB(8, 16, 16, 16),
+                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                  child: Text(product!.name,
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(
+                          fontSize: 20, color: Color(0xff000000))),
+                ),
+              )
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Container(
+                margin: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                child: Flexible(
+                  child: Text(product!.price.toString(),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 20, color: Colors.red)),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Container(
+                margin: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                child: Flexible(
+                  child: Text("Còn 5 sản phẩm trong kho",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          decoration: TextDecoration.underline)),
+                ),
+              ),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Container(
+                margin: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                child: Text(product!.shortDescription,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(fontSize: 16, color: Colors.black)),
+              )
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -236,7 +272,7 @@ class ProductLists extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
                             Flexible(
-                              child: Text(products[index].price,
+                              child: Text(products[index].price.toString(),
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
                                       fontSize: 20, color: Colors.red)),
@@ -252,31 +288,5 @@ class ProductLists extends StatelessWidget {
             },
           ),
         ));
-  }
-}
-
-class SearchBox extends StatelessWidget {
-  const SearchBox({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      child: Positioned(
-          child: Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-              height: 54,
-              child: TextField(
-                decoration: InputDecoration(
-                    hintText: "Tìm kiếm sản phẩm",
-                    hintStyle: TextStyle(color: Colors.black)),
-              ),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8)))),
-    );
   }
 }

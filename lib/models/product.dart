@@ -6,7 +6,7 @@ class ProductModel {
   String id = "";
   String name = "";
   String thumbnail = "";
-  String price = "";
+  int price = 0;
   String shortDescription = "";
 
   ProductModel(
@@ -28,7 +28,7 @@ class ProductModel {
           name: "Tủ lạnh Aqua Inverter 270 lít AQR-IG288EN (GB)",
           thumbnail:
               "https://cdn.nguyenkimmall.com/images/thumbnails/600/336/detailed/575/10040766-tu-lanh-aqua-inverter-284-lit-aqr-ig288en-gb-1.jpg",
-          price: "8.567.112đ",
+          price: 8567112,
           shortDescription:
               "So far, this page has used only stateless widgets. Stateless widgets receive arguments from their parent widget, which they store in final member variables."),
       ProductModel(
@@ -36,7 +36,7 @@ class ProductModel {
           name: "Máy lọc nước",
           thumbnail:
               "https://cdn.nguyenkimmall.com/images/thumbnails/600/336/detailed/575/10040766-tu-lanh-aqua-inverter-284-lit-aqr-ig288en-gb-1.jpg",
-          price: "8.567.112đ",
+          price: 8567112,
           shortDescription:
               "So far, this page has used only stateless widgets. Stateless widgets receive arguments from their parent widget, which they store in final member variables."),
       ProductModel(
@@ -44,7 +44,7 @@ class ProductModel {
           name: "Bàn ủi điện",
           thumbnail:
               "https://cdn.nguyenkimmall.com/images/thumbnails/600/336/detailed/575/10040766-tu-lanh-aqua-inverter-284-lit-aqr-ig288en-gb-1.jpg",
-          price: "8.567.112đ",
+          price: 8567112,
           shortDescription:
               "So far, this page has used only stateless widgets. Stateless widgets receive arguments from their parent widget, which they store in final member variables."),
       ProductModel(
@@ -52,7 +52,7 @@ class ProductModel {
           name: "Tivi to",
           thumbnail:
               "https://cdn.nguyenkimmall.com/images/thumbnails/600/336/detailed/575/10040766-tu-lanh-aqua-inverter-284-lit-aqr-ig288en-gb-1.jpg",
-          price: "8.567.112đ",
+          price: 8567112,
           shortDescription:
               "So far, this page has used only stateless widgets. Stateless widgets receive arguments from their parent widget, which they store in final member variables."),
       ProductModel(
@@ -60,7 +60,7 @@ class ProductModel {
           name: "Máy sấy nhỏ",
           thumbnail:
               "https://cdn.nguyenkimmall.com/images/thumbnails/600/336/detailed/575/10040766-tu-lanh-aqua-inverter-284-lit-aqr-ig288en-gb-1.jpg",
-          price: "8.567.112đ",
+          price: 8567112,
           shortDescription:
               "So far, this page has used only stateless widgets. Stateless widgets receive arguments from their parent widget, which they store in final member variables."),
       ProductModel(
@@ -68,7 +68,7 @@ class ProductModel {
           name: "Tủ lạnh Aqua Inverter 270 lít AQR-IG288EN (GB)",
           thumbnail:
               "https://cdn.nguyenkimmall.com/images/thumbnails/600/336/detailed/575/10040766-tu-lanh-aqua-inverter-284-lit-aqr-ig288en-gb-1.jpg",
-          price: "8.567.112đ",
+          price: 8567112,
           shortDescription:
               "So far, this page has used only stateless widgets. Stateless widgets receive arguments from their parent widget, which they store in final member variables."),
       ProductModel(
@@ -76,7 +76,7 @@ class ProductModel {
           name: "Tủ lạnh Aqua Inverter 270 lít AQR-IG288EN (GB)",
           thumbnail:
               "https://cdn.nguyenkimmall.com/images/thumbnails/600/336/detailed/575/10040766-tu-lanh-aqua-inverter-284-lit-aqr-ig288en-gb-1.jpg",
-          price: "8.567.112đ",
+          price: 8567112,
           shortDescription:
               "So far, this page has used only stateless widgets. Stateless widgets receive arguments from their parent widget, which they store in final member variables."),
       ProductModel(
@@ -84,7 +84,7 @@ class ProductModel {
           name: "Tủ lạnh Aqua Inverter 270 lít AQR-IG288EN (GB)",
           thumbnail:
               "https://cdn.nguyenkimmall.com/images/thumbnails/600/336/detailed/575/10040766-tu-lanh-aqua-inverter-284-lit-aqr-ig288en-gb-1.jpg",
-          price: "8.567.112đ",
+          price: 8567112,
           shortDescription:
               "So far, this page has used only stateless widgets. Stateless widgets receive arguments from their parent widget, which they store in final member variables."),
       ProductModel(
@@ -92,7 +92,7 @@ class ProductModel {
           name: "Tủ lạnh Aqua Inverter 270 lít AQR-IG288EN (GB)",
           thumbnail:
               "https://cdn.nguyenkimmall.com/images/thumbnails/600/336/detailed/575/10040766-tu-lanh-aqua-inverter-284-lit-aqr-ig288en-gb-1.jpg",
-          price: "8.567.112đ",
+          price: 8567112,
           shortDescription:
               "So far, this page has used only stateless widgets. Stateless widgets receive arguments from their parent widget, which they store in final member variables.")
     ];
