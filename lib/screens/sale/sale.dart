@@ -5,6 +5,7 @@ import 'package:pos/components/footer.dart';
 import 'package:pos/components/searchBox.dart';
 import 'package:pos/models/customer.dart';
 import 'package:pos/models/product.dart';
+import 'package:pos/screens/bill/bill.dart';
 
 class Sale extends StatefulWidget {
   @override
@@ -40,11 +41,20 @@ class SalePageState extends State<Sale> {
   final customers = CustomerModel.generate();
 
   CustomerModel? selectedCustomer;
+
   List<CartItem> items = [];
   int totalAmount = 0;
   int subTotalAmount = 0;
   int discountAmount = 0;
   int taxAmount = 0;
+
+  void handleChooseCustomer(CustomerModel customer) {
+    setState(() {
+      selectedCustomer = customer;
+    });
+  }
+
+  void handleChooseVoucher() {}
 
   void viewProductDetail(String productId) {
     final productItem =
@@ -100,6 +110,139 @@ class SalePageState extends State<Sale> {
       subTotalAmount = subTotalAmount - item.price;
       totalAmount = subTotalAmount + discountAmount + taxAmount;
     });
+  }
+
+  void handleChangeCustomer(CustomerModel customer) {
+    setState(() {
+      selectedCustomer = customer;
+    });
+  }
+
+  void completeSale() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Bill()),
+    );
+  }
+
+  void _showCustomerDialog(Size size) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(builder: (context, setState) {
+          return SimpleDialog(
+            title: Text('TÌM KIẾM KHÁCH HÀNG'),
+            children: [
+              SearchBox(),
+              Container(
+                width: size.width * 0.4,
+                child: ListView.separated(
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      return InkWell(
+                          onTap: () {
+                            handleChangeCustomer(customers[index]);
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(left: 16, right: 16),
+                            decoration: BoxDecoration(
+                                border: selectedCustomer != null &&
+                                        selectedCustomer!.id ==
+                                            customers[index].id
+                                    ? Border.all(color: Color(0xffce0832))
+                                    : Border.all(color: Colors.grey)),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 100,
+                                  height: 100,
+                                  padding: EdgeInsets.all(16),
+                                  child: CircleAvatar(
+                                    backgroundImage:
+                                        NetworkImage(customers[index].avatar),
+                                  ),
+                                ),
+                                Container(
+                                    width: 300,
+                                    height: 100,
+                                    padding: EdgeInsets.all(16),
+                                    alignment: Alignment.topLeft,
+                                    child: RichText(
+                                      text: TextSpan(
+                                        text: customers[index].firstName +
+                                            " " +
+                                            customers[index].lastName,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                            color: Colors.black),
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                            text: '\n',
+                                          ),
+                                          TextSpan(
+                                              text: customers[index].phone,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 16,
+                                                  color: Colors.black)),
+                                        ],
+                                      ),
+                                    )),
+                                Spacer(),
+                                Container(
+                                  padding: EdgeInsets.all(16),
+                                  alignment: Alignment.topLeft,
+                                  child: Text(customers[index].address),
+                                )
+                              ],
+                            ),
+                          ));
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const Divider(),
+                    itemCount: customers.length),
+              ),
+              Divider(),
+              Container(
+                alignment: Alignment.topLeft,
+                padding: EdgeInsets.only(left: 16, right: 16),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 120,
+                      height: 40,
+                      child: OutlinedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("Thoát"),
+                        style: OutlinedButton.styleFrom(
+                            primary: Colors.white,
+                            backgroundColor: Colors.grey),
+                      ),
+                    ),
+                    Spacer(),
+                    Container(
+                      width: 120,
+                      height: 40,
+                      child: OutlinedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("Chọn"),
+                        style: OutlinedButton.styleFrom(
+                            primary: Colors.white, backgroundColor: Colors.red),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          );
+        });
+      },
+    );
   }
 
   @override
@@ -171,97 +314,7 @@ class SalePageState extends State<Sale> {
         )
       ],
     );
-    final customerDialog = SimpleDialog(
-      title: Text('TÌM KIẾM KHÁCH HÀNG'),
-      children: [
-        SearchBox(),
-        Container(
-          width: size.width * 0.4,
-          child: ListView.separated(
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) {
-                return Row(
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 100,
-                      padding: EdgeInsets.all(16),
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(customers[index].avatar),
-                      ),
-                    ),
-                    Container(
-                        width: 300,
-                        height: 100,
-                        padding: EdgeInsets.all(16),
-                        alignment: Alignment.topLeft,
-                        child: RichText(
-                          text: TextSpan(
-                            text: customers[index].firstName +
-                                " " +
-                                customers[index].lastName,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                color: Colors.black),
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: '\n',
-                              ),
-                              TextSpan(
-                                  text: customers[index].phone,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 16,
-                                      color: Colors.black)),
-                            ],
-                          ),
-                        )),
-                    Spacer(),
-                    Container(
-                      padding: EdgeInsets.all(16),
-                      alignment: Alignment.topLeft,
-                      child: Text(customers[index].address),
-                    )
-                  ],
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) =>
-                  const Divider(),
-              itemCount: customers.length),
-        ),
-        Divider(),
-        Container(
-          alignment: Alignment.topLeft,
-          padding: EdgeInsets.only(left: 16, right: 16),
-          child: Row(
-            children: [
-              Container(
-                width: 120,
-                height: 40,
-                child: OutlinedButton(
-                  onPressed: () {},
-                  child: Text("Thoát"),
-                  style: OutlinedButton.styleFrom(
-                      primary: Colors.white, backgroundColor: Colors.grey),
-                ),
-              ),
-              Spacer(),
-              Container(
-                width: 120,
-                height: 40,
-                child: OutlinedButton(
-                  onPressed: () {},
-                  child: Text("Chọn"),
-                  style: OutlinedButton.styleFrom(
-                      primary: Colors.white, backgroundColor: Colors.red),
-                ),
-              )
-            ],
-          ),
-        )
-      ],
-    );
+
     return Scaffold(
         appBar: buildAppBar(context, "BÁN HÀNG"),
         bottomNavigationBar: Footer(),
@@ -462,12 +515,14 @@ class SalePageState extends State<Sale> {
                             alignment: Alignment.topLeft,
                             child: InkWell(
                               onTap: () {
-                                showDialog<void>(
-                                    context: context,
-                                    builder: (context) => customerDialog);
+                                _showCustomerDialog(size);
                               },
-                              child: Text("Chọn khách hàng",
-                                  style: TextStyle(color: Colors.red)),
+                              child: selectedCustomer != null
+                                  ? Text(selectedCustomer!.firstName +
+                                      " " +
+                                      selectedCustomer!.lastName)
+                                  : Text("Chọn khách hàng",
+                                      style: TextStyle(color: Colors.red)),
                             ),
                           ),
                           Divider(color: Colors.black),
@@ -498,7 +553,9 @@ class SalePageState extends State<Sale> {
                               style: OutlinedButton.styleFrom(
                                   primary: Colors.red,
                                   backgroundColor: Colors.red),
-                              onPressed: () => {},
+                              onPressed: () {
+                                completeSale();
+                              },
                               child: Text(
                                 "Hoàn thành",
                                 style: TextStyle(color: Colors.white),

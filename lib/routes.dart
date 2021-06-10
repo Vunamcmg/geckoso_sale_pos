@@ -8,6 +8,7 @@ import "package:pos/screens/profile/profile.dart";
 import "package:pos/screens/sale/sale.dart";
 import "package:pos/screens/setting/setting.dart";
 import "package:pos/screens/login/login.dart";
+import "package:pos/screens/bill/bill.dart";
 
 final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/product": (BuildContext context) => Product(),
@@ -18,4 +19,5 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/sale": (BuildContext context) => Sale(),
   "/setting": (BuildContext context) => Setting(),
   "/login": (BuildContext context) => Login(),
+  "/bill": (BuildContext context) => Bill(),
 };
