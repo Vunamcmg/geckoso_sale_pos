@@ -1,7 +1,8 @@
-import "package:flutter/widgets.dart";
 import 'package:flutter/material.dart';
+import "package:flutter/widgets.dart";
 import 'package:pos/components/appbar.dart';
 import 'package:pos/components/footer.dart';
+import 'package:pos/components/productList.dart';
 import 'package:pos/components/searchBox.dart';
 import 'package:pos/models/customer.dart';
 import 'package:pos/models/product.dart';
@@ -319,254 +320,279 @@ class SalePageState extends State<Sale> {
         appBar: buildAppBar(context, "BÁN HÀNG"),
         bottomNavigationBar: Footer(),
         body: Container(
-          padding: const EdgeInsets.fromLTRB(48, 8, 38, 8),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 8,
-                child: Column(
-                  children: [
-                    const SearchBox(),
-                    Container(
-                      height: 80,
-                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                      child: Positioned(
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: InkWell(
-                                  onTap: () {},
-                                  onHover: (value) {},
-                                  child: Text("Tủ lạnh",
+          color: Colors.grey.shade200,
+          height: size.height,
+          child: Container(
+            alignment: Alignment.topLeft,
+            margin: EdgeInsets.all(64),
+            padding: EdgeInsets.all(32),
+            color: Colors.white,
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 9,
+                  child: Column(
+                    children: [
+                      const SearchBox(),
+                      Container(
+                        height: 80,
+                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                        child: Positioned(
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: InkWell(
+                                    onTap: () {},
+                                    onHover: (value) {},
+                                    child: Text("Tủ lạnh",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold))),
+                              ),
+                              Expanded(
+                                  flex: 2,
+                                  child: Text("Máy giặt",
                                       style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold))),
-                            ),
-                            Expanded(
-                                flex: 2,
-                                child: Text("Máy giặt",
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold))),
-                            Expanded(
-                                flex: 2,
-                                child: Text("Điều hoà",
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold))),
-                            Expanded(
-                                flex: 2,
-                                child: Text("Tivi",
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold)))
-                          ],
-                        ),
-                      ),
-                    ),
-                    ProductLists(
-                        size: size,
-                        products: products,
-                        viewProductDetail: viewProductDetail),
-                  ],
-                ),
-              ),
-              Expanded(
-                flex: 4, // 20%
-                child: Container(
-                    color: Colors.white,
-                    alignment: Alignment.center,
-                    child: Container(
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: <Widget>[
-                              Flexible(
-                                child: Container(
-                                  margin:
-                                      const EdgeInsets.fromLTRB(8, 16, 16, 11),
-                                  padding:
-                                      const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                                  child: const Text("GIỎ HÀNG",
-                                      textAlign: TextAlign.left,
+                              Expanded(
+                                  flex: 2,
+                                  child: Text("Điều hoà",
                                       style: TextStyle(
                                           fontSize: 20,
-                                          color: Color(0xff000000))),
-                                ),
-                              )
+                                          fontWeight: FontWeight.bold))),
+                              Expanded(
+                                  flex: 2,
+                                  child: Text("Tivi",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold)))
                             ],
                           ),
-                          const Divider(color: Colors.black),
-                          Container(
-                            // height: size.height * 0.6,
-                            child: ListView.separated(
-                                shrinkWrap: true,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Row(
-                                    children: [
-                                      Container(
-                                        width: 100,
-                                        height: 100,
-                                        child: Image.network(
-                                            items[index].thumbnail,
-                                            // height: 300,
-                                            // width: 300,
-                                            fit: BoxFit.fill),
+                        ),
+                      ),
+                      ProductLists(
+                          size: size,
+                          products: products,
+                          viewProductDetail: viewProductDetail),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  flex: 3, // 20%
+                  child: items.length == 0
+                      ? Container(
+                          alignment: Alignment.center,
+                          child: Text("Chưa chọn sản phẩm"),
+                        )
+                      : Container(
+                          color: Colors.white,
+                          alignment: Alignment.center,
+                          child: Container(
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: <Widget>[
+                                    Flexible(
+                                      child: Container(
+                                        margin: const EdgeInsets.fromLTRB(
+                                            8, 16, 16, 11),
+                                        padding: const EdgeInsets.fromLTRB(
+                                            8, 8, 8, 8),
+                                        child: const Text("GIỎ HÀNG",
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Color(0xff000000))),
                                       ),
-                                      Container(
-                                        width: 300,
-                                        height: 100,
-                                        alignment: Alignment.topLeft,
-                                        child: Column(
+                                    )
+                                  ],
+                                ),
+                                const Divider(color: Colors.black),
+                                Container(
+                                  // height: size.height * 0.6,
+                                  child: ListView.separated(
+                                      shrinkWrap: true,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return Row(
                                           children: [
-                                            Text(
-                                              items[index].name,
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(fontSize: 18),
+                                            Container(
+                                              width: 50,
+                                              height: 50,
+                                              child: Image.network(
+                                                  items[index].thumbnail,
+                                                  // height: 300,
+                                                  // width: 300,
+                                                  fit: BoxFit.cover),
                                             ),
                                             Container(
-                                              padding: EdgeInsets.only(top: 8),
-                                              child: Row(
+                                              width: (size.width - 64 * 2) / 3 -
+                                                  400,
+                                              height: 100,
+                                              alignment: Alignment.topLeft,
+                                              child: Column(
                                                 children: [
-                                                  OutlinedButton(
-                                                    style: ButtonStyle(
-                                                      foregroundColor:
-                                                          MaterialStateProperty
-                                                              .all<Color>(
-                                                                  Colors.blue),
-                                                    ),
-                                                    onPressed: () {
-                                                      handleDecreaseQuantity(
-                                                          items[index].id);
-                                                    },
-                                                    child: const Text('-'),
+                                                  Text(
+                                                    items[index].name,
+                                                    textAlign: TextAlign.left,
+                                                    overflow: TextOverflow.clip,
+                                                    style:
+                                                        TextStyle(fontSize: 16),
                                                   ),
                                                   Container(
-                                                    width: 50,
-                                                    height: 30,
-                                                    // decoration: BoxDecoration(
-                                                    //     color: Colors.white,
-                                                    //     border: Border.all(
-                                                    //         color: Colors.grey)),
-                                                    child: Text(
-                                                        items[index]
-                                                            .quantity
-                                                            .toString(),
-                                                        textAlign:
-                                                            TextAlign.center),
-                                                  ),
-                                                  OutlinedButton(
-                                                    style: ButtonStyle(
-                                                      foregroundColor:
-                                                          MaterialStateProperty
-                                                              .all<Color>(
-                                                                  Colors.blue),
+                                                    padding:
+                                                        EdgeInsets.only(top: 8),
+                                                    child: Row(
+                                                      children: [
+                                                        OutlinedButton(
+                                                          style: ButtonStyle(
+                                                            foregroundColor:
+                                                                MaterialStateProperty
+                                                                    .all<Color>(
+                                                                        Colors
+                                                                            .blue),
+                                                          ),
+                                                          onPressed: () {
+                                                            handleDecreaseQuantity(
+                                                                items[index]
+                                                                    .id);
+                                                          },
+                                                          child:
+                                                              const Text('-'),
+                                                        ),
+                                                        Container(
+                                                          width: 50,
+                                                          height: 30,
+                                                          child: Text(
+                                                              items[index]
+                                                                  .quantity
+                                                                  .toString(),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center),
+                                                        ),
+                                                        OutlinedButton(
+                                                          style: ButtonStyle(
+                                                            foregroundColor:
+                                                                MaterialStateProperty
+                                                                    .all<Color>(
+                                                                        Colors
+                                                                            .blue),
+                                                          ),
+                                                          onPressed: () {
+                                                            handleIncreaseQuantity(
+                                                                items[index]
+                                                                    .id);
+                                                          },
+                                                          child:
+                                                              const Text('+'),
+                                                        ),
+                                                      ],
                                                     ),
-                                                    onPressed: () {
-                                                      handleIncreaseQuantity(
-                                                          items[index].id);
-                                                    },
-                                                    child: const Text('+'),
-                                                  ),
+                                                  )
                                                 ],
                                               ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Spacer(),
-                                      Container(
-                                          width: 200,
-                                          height: 100,
-                                          child: Column(
-                                            children: [
-                                              Text(
-                                                items[index].price.toString(),
-                                                style: TextStyle(fontSize: 16),
-                                              ),
-                                              GestureDetector(
-                                                  onTap: () {
-                                                    handleDeleteItem(
-                                                        items[index].id);
-                                                  },
-                                                  child: Text("Xoá",
+                                            ),
+                                            Spacer(),
+                                            Container(
+                                                width: 150,
+                                                height: 100,
+                                                child: Column(
+                                                  children: [
+                                                    Text(
+                                                      items[index]
+                                                          .price
+                                                          .toString(),
                                                       style: TextStyle(
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .underline))),
-                                            ],
-                                          ))
-                                    ],
-                                  );
-                                },
-                                separatorBuilder:
-                                    (BuildContext context, int index) =>
-                                        const Divider(),
-                                itemCount: items.length),
-                          ),
-                          Divider(color: Colors.black),
-                          Container(
-                            // height: 30,
-                            padding: EdgeInsets.only(top: 8, bottom: 8),
-                            width: double.infinity,
-                            alignment: Alignment.topLeft,
-                            child: InkWell(
-                              onTap: () {
-                                _showCustomerDialog(size);
-                              },
-                              child: selectedCustomer != null
-                                  ? Text(selectedCustomer!.firstName +
-                                      " " +
-                                      selectedCustomer!.lastName)
-                                  : Text("Chọn khách hàng",
-                                      style: TextStyle(color: Colors.red)),
+                                                          fontSize: 16),
+                                                    ),
+                                                    GestureDetector(
+                                                        onTap: () {
+                                                          handleDeleteItem(
+                                                              items[index].id);
+                                                        },
+                                                        child: Text("Xoá",
+                                                            style: TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .underline))),
+                                                  ],
+                                                ))
+                                          ],
+                                        );
+                                      },
+                                      separatorBuilder:
+                                          (BuildContext context, int index) =>
+                                              const Divider(),
+                                      itemCount: items.length),
+                                ),
+                                Divider(),
+                                Container(
+                                  // height: 30,
+                                  padding: EdgeInsets.only(top: 12, bottom: 12),
+                                  width: double.infinity,
+                                  alignment: Alignment.topLeft,
+                                  child: InkWell(
+                                    onTap: () {
+                                      _showCustomerDialog(size);
+                                    },
+                                    child: selectedCustomer != null
+                                        ? Text(selectedCustomer!.firstName +
+                                            " " +
+                                            selectedCustomer!.lastName)
+                                        : Text("Chọn khách hàng",
+                                            style:
+                                                TextStyle(color: Colors.red)),
+                                  ),
+                                ),
+                                Divider(),
+                                Container(
+                                    // height: 30,
+                                    padding:
+                                        EdgeInsets.only(top: 12, bottom: 12),
+                                    width: double.infinity,
+                                    alignment: Alignment.topLeft,
+                                    child: InkWell(
+                                      onTap: () {
+                                        showDialog<void>(
+                                            context: context,
+                                            builder: (context) => dialog);
+                                      },
+                                      child: Text("Thêm khuyến mãi",
+                                          style: TextStyle(color: Colors.red)),
+                                    )),
+                                Divider(),
+                                CartAmount(
+                                    subTotalAmount: subTotalAmount,
+                                    discountAmount: discountAmount,
+                                    taxAmount: taxAmount,
+                                    totalAmount: totalAmount),
+                                Container(
+                                  width: double.infinity,
+                                  height: 40,
+                                  child: OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                        primary: Colors.red,
+                                        backgroundColor: Colors.red),
+                                    onPressed: () {
+                                      completeSale();
+                                    },
+                                    child: Text(
+                                      "Hoàn thành",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          Divider(color: Colors.black),
-                          Container(
-                              // height: 30,
-                              padding: EdgeInsets.only(top: 8, bottom: 8),
-                              width: double.infinity,
-                              alignment: Alignment.topLeft,
-                              child: InkWell(
-                                onTap: () {
-                                  showDialog<void>(
-                                      context: context,
-                                      builder: (context) => dialog);
-                                },
-                                child: Text("Thêm khuyến mãi",
-                                    style: TextStyle(color: Colors.red)),
-                              )),
-                          Divider(color: Colors.black),
-                          CartAmount(
-                              subTotalAmount: subTotalAmount,
-                              discountAmount: discountAmount,
-                              taxAmount: taxAmount,
-                              totalAmount: totalAmount),
-                          Container(
-                            width: double.infinity,
-                            height: 40,
-                            child: OutlinedButton(
-                              style: OutlinedButton.styleFrom(
-                                  primary: Colors.red,
-                                  backgroundColor: Colors.red),
-                              onPressed: () {
-                                completeSale();
-                              },
-                              child: Text(
-                                "Hoàn thành",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )),
-              )
-            ],
+                          )),
+                )
+              ],
+            ),
           ),
         ));
   }
@@ -664,91 +690,5 @@ class CartAmount extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class ProductLists extends StatelessWidget {
-  const ProductLists(
-      {Key? key,
-      required this.size,
-      required this.products,
-      required this.viewProductDetail})
-      : super(key: key);
-
-  final Size size;
-  final List<ProductModel> products;
-  final Function viewProductDetail;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        height: size.height * 0.7,
-        padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-        child: Container(
-          child: GridView.builder(
-            itemCount: products.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 9 / 10,
-                crossAxisSpacing: 4.0,
-                mainAxisSpacing: 4.0),
-            itemBuilder: (BuildContext context, int index) {
-              return InkWell(
-                child: Container(
-                    margin: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(4),
-                        border: Border.all(color: Colors.grey)),
-                    height: 600,
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Image.network(products[index].thumbnail,
-                                height: 300, width: 300, fit: BoxFit.fill),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            Flexible(
-                              child: Container(
-                                margin: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                                padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                                child: Text(products[index].name,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                        fontSize: 20,
-                                        color: Color(0xff000000))),
-                              ),
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            Flexible(
-                              child: Text(products[index].price.toString(),
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                      fontSize: 20, color: Colors.red)),
-                            )
-                          ],
-                        ),
-                      ],
-                    )),
-                onTap: () {
-                  viewProductDetail(products[index].id);
-                },
-              );
-            },
-          ),
-        ));
   }
 }

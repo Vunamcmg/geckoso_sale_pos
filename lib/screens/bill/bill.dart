@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import "package:flutter/widgets.dart";
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
 import 'package:pos/components/appbar.dart';
 import 'package:pos/components/footer.dart';
 import 'package:pos/models/product.dart';
-import 'package:printing/printing.dart';
 
 class Bill extends StatefulWidget {
   @override
@@ -18,19 +15,7 @@ class BillPageState extends State<Bill> {
   final products = ProductModel.productsGenerate();
   bool isSelectProduct = false;
 
-  void print() {
-    final doc = pw.Document();
-
-    doc.addPage(pw.Page(
-        pageFormat: PdfPageFormat.a4,
-        build: (pw.Context context) {
-          return pw.Center(
-            child: pw.Text('Hello World'),
-          ); // Center
-        }));
-
-    Printing.layoutPdf(onLayout: (PdfPageFormat format) async => doc.save());
-  }
+  void print() {}
 
   @override
   Widget build(BuildContext context) {

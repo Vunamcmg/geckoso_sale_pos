@@ -5,27 +5,31 @@ import 'package:pos/components/footer.dart';
 class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: const Text('GECKOSO SALE POS',
             style: TextStyle(fontSize: 24, color: Colors.black)),
         backgroundColor: Colors.white,
         toolbarHeight: 80,
-        // leading: IconButton(
-        //   icon: Icon(Icons.arrow_back, color: Colors.black),
-        //   onPressed: () => Navigator.of(context).pop(),
-        // ),
       ),
       bottomNavigationBar: Footer(),
       body: Container(
-          padding: const EdgeInsets.fromLTRB(48, 8, 38, 8),
-          child: Row(children: [
-            const Expanded(flex: 8, child: SectionList()),
-            const Expanded(
-              flex: 4,
-              child: Text("Leu leu"),
-            )
-          ])),
+          color: Colors.grey.shade200,
+          height: size.height,
+          child: Container(
+            alignment: Alignment.topLeft,
+            margin: EdgeInsets.all(64),
+            padding: EdgeInsets.all(32),
+            color: Colors.white,
+            child: Row(children: [
+              const Expanded(flex: 8, child: SectionList()),
+              const Expanded(
+                flex: 4,
+                child: Text("Leu leu"),
+              )
+            ]),
+          )),
     );
   }
 }
@@ -45,7 +49,7 @@ class SectionList extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            height: (size.height - 180) / 3,
+            height: (size.height - 180 - 64 * 2 - 32 * 2) / 3,
             padding: EdgeInsets.only(top: 16, bottom: 8),
             child: Row(
               children: [
@@ -76,7 +80,7 @@ class SectionList extends StatelessWidget {
             ),
           ),
           Container(
-            height: (size.height - 180) / 3,
+            height: (size.height - 180 - 64 * 2 - 32 * 2) / 3,
             padding: EdgeInsets.only(top: 8, bottom: 8),
             child: Row(
               children: [
@@ -107,7 +111,7 @@ class SectionList extends StatelessWidget {
             ),
           ),
           Container(
-            height: (size.height - 180) / 3,
+            height: (size.height - 180 - 64 * 2 - 32 * 2) / 3,
             padding: EdgeInsets.only(top: 8, bottom: 8),
             child: Row(
               children: [

@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class SearchBox extends StatelessWidget {
   const SearchBox({
     Key? key,
+    this.title = "Tìm kiếm",
   }) : super(key: key);
-
+  final String title;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,8 +17,7 @@ class SearchBox extends StatelessWidget {
               height: 54,
               child: TextField(
                 decoration: InputDecoration(
-                    hintText: "Tìm kiếm sản phẩm",
-                    hintStyle: TextStyle(color: Colors.black)),
+                    hintText: title, hintStyle: TextStyle(color: Colors.black)),
               ),
               decoration: BoxDecoration(
                   color: Colors.white,
