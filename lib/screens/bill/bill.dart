@@ -28,8 +28,8 @@ class BillPageState extends State<Bill> {
             height: size.height,
             child: Container(
                 alignment: Alignment.topLeft,
-                margin: EdgeInsets.all(64),
-                padding: EdgeInsets.all(32),
+                margin: EdgeInsets.all(32),
+                padding: EdgeInsets.all(16),
                 color: Colors.white,
                 child: Column(
                   children: [

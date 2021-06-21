@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import "package:flutter/widgets.dart";
 import 'package:pos/components/appbar.dart';
 import 'package:pos/components/footer.dart';
-import 'package:pos/components/productList.dart';
 import 'package:pos/components/searchBox.dart';
+import 'package:pos/data/moorDatabase.dart';
 import 'package:pos/models/customer.dart';
 import 'package:pos/models/product.dart';
 import 'package:pos/screens/bill/bill.dart';
+import 'package:provider/provider.dart';
+
+import 'cartAmount.dart';
+import 'categoryTab.dart';
 
 class Sale extends StatefulWidget {
   @override
@@ -16,7 +20,7 @@ class Sale extends StatefulWidget {
 }
 
 class CartItem {
-  String id = "";
+  int id = 0;
   String name = "";
   String thumbnail = "";
   int price = 0;
@@ -49,6 +53,11 @@ class SalePageState extends State<Sale> {
   int discountAmount = 0;
   int taxAmount = 0;
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   void handleChooseCustomer(CustomerModel customer) {
     setState(() {
       selectedCustomer = customer;
@@ -57,10 +66,10 @@ class SalePageState extends State<Sale> {
 
   void handleChooseVoucher() {}
 
-  void viewProductDetail(String productId) {
-    final productItem =
-        products.singleWhere((element) => element.id == productId);
-    final itemIndex = items.indexWhere((element) => element.id == productId);
+  void viewProductDetail(Product product) {
+    // final productItem =
+    //     products.singleWhere((element) => element.id == productId);
+    final itemIndex = items.indexWhere((element) => element.id == product.id);
     if (itemIndex != -1) {
       setState(() {
         items[itemIndex].quantity++;
@@ -71,13 +80,13 @@ class SalePageState extends State<Sale> {
     }
     setState(() {
       items.add(CartItem(
-          id: productItem.id,
-          name: productItem.name,
-          thumbnail: productItem.thumbnail,
-          price: productItem.price,
-          shortDescription: productItem.shortDescription,
+          id: product.id,
+          name: product.name,
+          thumbnail: product.thumbnail,
+          price: product.price,
+          shortDescription: product.shortDescription,
           quantity: 1));
-      subTotalAmount = subTotalAmount + productItem.price;
+      subTotalAmount = subTotalAmount + product.price;
       totalAmount = subTotalAmount + discountAmount + taxAmount;
     });
   }
@@ -137,72 +146,7 @@ class SalePageState extends State<Sale> {
               SearchBox(),
               Container(
                 width: size.width * 0.4,
-                child: ListView.separated(
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      return InkWell(
-                          onTap: () {
-                            handleChangeCustomer(customers[index]);
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(left: 16, right: 16),
-                            decoration: BoxDecoration(
-                                border: selectedCustomer != null &&
-                                        selectedCustomer!.id ==
-                                            customers[index].id
-                                    ? Border.all(color: Color(0xffce0832))
-                                    : Border.all(color: Colors.grey)),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 100,
-                                  height: 100,
-                                  padding: EdgeInsets.all(16),
-                                  child: CircleAvatar(
-                                    backgroundImage:
-                                        NetworkImage(customers[index].avatar),
-                                  ),
-                                ),
-                                Container(
-                                    width: 300,
-                                    height: 100,
-                                    padding: EdgeInsets.all(16),
-                                    alignment: Alignment.topLeft,
-                                    child: RichText(
-                                      text: TextSpan(
-                                        text: customers[index].firstName +
-                                            " " +
-                                            customers[index].lastName,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18,
-                                            color: Colors.black),
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                            text: '\n',
-                                          ),
-                                          TextSpan(
-                                              text: customers[index].phone,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 16,
-                                                  color: Colors.black)),
-                                        ],
-                                      ),
-                                    )),
-                                Spacer(),
-                                Container(
-                                  padding: EdgeInsets.all(16),
-                                  alignment: Alignment.topLeft,
-                                  child: Text(customers[index].address),
-                                )
-                              ],
-                            ),
-                          ));
-                    },
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const Divider(),
-                    itemCount: customers.length),
+                child: _buildCustomerList(context),
               ),
               Divider(),
               Container(
@@ -315,7 +259,15 @@ class SalePageState extends State<Sale> {
         )
       ],
     );
-
+    final database = Provider.of<AppDatabase>(context);
+    database.insertCustomer(Customer(
+        id: 1,
+        firstName: "Trần",
+        lastName: "Trọng Kim",
+        phone: "0343538585",
+        address: "Quảng Phú",
+        avatar:
+            "https://noidangsong.vn/files/uploads/fb1735058496563345/1526444239-tt_avatar_small.jpg"));
     return Scaffold(
         appBar: buildAppBar(context, "BÁN HÀNG"),
         bottomNavigationBar: Footer(),
@@ -324,8 +276,8 @@ class SalePageState extends State<Sale> {
           height: size.height,
           child: Container(
             alignment: Alignment.topLeft,
-            margin: EdgeInsets.all(64),
-            padding: EdgeInsets.all(32),
+            margin: EdgeInsets.all(32),
+            padding: EdgeInsets.all(16),
             color: Colors.white,
             child: Row(
               children: [
@@ -334,48 +286,12 @@ class SalePageState extends State<Sale> {
                   child: Column(
                     children: [
                       const SearchBox(),
-                      Container(
-                        height: 80,
-                        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                        child: Positioned(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: InkWell(
-                                    onTap: () {},
-                                    onHover: (value) {},
-                                    child: Text("Tủ lạnh",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold))),
-                              ),
-                              Expanded(
-                                  flex: 2,
-                                  child: Text("Máy giặt",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold))),
-                              Expanded(
-                                  flex: 2,
-                                  child: Text("Điều hoà",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold))),
-                              Expanded(
-                                  flex: 2,
-                                  child: Text("Tivi",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold)))
-                            ],
-                          ),
-                        ),
-                      ),
-                      ProductLists(
-                          size: size,
-                          products: products,
-                          viewProductDetail: viewProductDetail),
+                      CategoryTab(),
+                      _buildProductList(context, size, viewProductDetail)
+                      // ProductLists(
+                      //     size: size,
+                      //     products: products,
+                      //     viewProductDetail: viewProductDetail),
                     ],
                   ),
                 ),
@@ -430,7 +346,7 @@ class SalePageState extends State<Sale> {
                                                   fit: BoxFit.cover),
                                             ),
                                             Container(
-                                              width: (size.width - 64 * 2) / 3 -
+                                              width: (size.width - 32 * 2) / 3 -
                                                   400,
                                               height: 100,
                                               alignment: Alignment.topLeft,
@@ -459,7 +375,8 @@ class SalePageState extends State<Sale> {
                                                           onPressed: () {
                                                             handleDecreaseQuantity(
                                                                 items[index]
-                                                                    .id);
+                                                                    .id
+                                                                    .toString());
                                                           },
                                                           child:
                                                               const Text('-'),
@@ -486,7 +403,8 @@ class SalePageState extends State<Sale> {
                                                           onPressed: () {
                                                             handleIncreaseQuantity(
                                                                 items[index]
-                                                                    .id);
+                                                                    .id
+                                                                    .toString());
                                                           },
                                                           child:
                                                               const Text('+'),
@@ -513,7 +431,9 @@ class SalePageState extends State<Sale> {
                                                     GestureDetector(
                                                         onTap: () {
                                                           handleDeleteItem(
-                                                              items[index].id);
+                                                              items[index]
+                                                                  .id
+                                                                  .toString());
                                                         },
                                                         child: Text("Xoá",
                                                             style: TextStyle(
@@ -598,97 +518,167 @@ class SalePageState extends State<Sale> {
   }
 }
 
-class SimpleDialogItem extends StatelessWidget {
-  const SimpleDialogItem(
-      {Key? key, this.icon, this.color, this.text = "", this.onPressed})
-      : super(key: key);
+StreamBuilder<List<Customer>> _buildCustomerList(BuildContext context) {
+  final database = Provider.of<AppDatabase>(context);
 
-  final IconData? icon;
-  final Color? color;
-  final String text;
-  final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return SimpleDialogOption(
-      onPressed: onPressed,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Icon(icon, size: 36.0, color: color),
-          Padding(
-            padding: const EdgeInsetsDirectional.only(start: 16.0),
-            child: Text(text),
-          ),
-        ],
-      ),
-    );
-  }
+  return StreamBuilder(
+    stream: database.watchAllCustomers(),
+    builder: (context, AsyncSnapshot<List<Customer>> snapshot) {
+      final customers = snapshot.data ?? [];
+      return ListView.separated(
+          shrinkWrap: true,
+          itemBuilder: (BuildContext context, int index) {
+            return InkWell(
+                onTap: () {
+                  // handleChangeCustomer(customers[index]);
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 16, right: 16),
+                  decoration:
+                      BoxDecoration(border: Border.all(color: Colors.grey)),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 100,
+                        padding: EdgeInsets.all(16),
+                        child: CircleAvatar(
+                          backgroundImage:
+                              NetworkImage(customers[index].avatar),
+                        ),
+                      ),
+                      Container(
+                          width: 300,
+                          height: 100,
+                          padding: EdgeInsets.all(16),
+                          alignment: Alignment.topLeft,
+                          child: RichText(
+                            text: TextSpan(
+                              text: customers[index].firstName +
+                                  " " +
+                                  customers[index].lastName,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: Colors.black),
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: '\n',
+                                ),
+                                TextSpan(
+                                    text: customers[index].phone,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 16,
+                                        color: Colors.black)),
+                              ],
+                            ),
+                          )),
+                      Spacer(),
+                      Container(
+                        padding: EdgeInsets.all(16),
+                        alignment: Alignment.topLeft,
+                        child: Text(customers[index].address),
+                      )
+                    ],
+                  ),
+                ));
+          },
+          separatorBuilder: (BuildContext context, int index) =>
+              const Divider(),
+          itemCount: customers.length);
+    },
+  );
 }
 
-class CartAmount extends StatelessWidget {
-  const CartAmount({
-    Key? key,
-    required this.subTotalAmount,
-    required this.discountAmount,
-    required this.taxAmount,
-    required this.totalAmount,
-  }) : super(key: key);
+StreamBuilder<List<Product>> _buildProductList(
+    BuildContext context, Size size, Function viewProductDetail) {
+  final database = Provider.of<AppDatabase>(context);
 
-  final int subTotalAmount;
-  final int discountAmount;
-  final int taxAmount;
-  final int totalAmount;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(top: 8, bottom: 8),
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.only(top: 4, bottom: 4),
-            child: Row(
-              children: [
-                Text("Tam tinh"),
-                Spacer(),
-                Text(subTotalAmount.toString()),
-              ],
+  return StreamBuilder(
+    stream: database.watchAllProducts(),
+    builder: (context, AsyncSnapshot<List<Product>> snapshot) {
+      final products = snapshot.data ?? [];
+      final productListHeight = size.height - 64 * 2 - 32 * 2 - 160 - 80 - 100;
+      const double padding = 8;
+      return Container(
+          height: productListHeight,
+          padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+          child: Container(
+            child: GridView.builder(
+              itemCount: products.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: 9 / 10,
+                  crossAxisSpacing: 4.0,
+                  mainAxisSpacing: 4.0),
+              itemBuilder: (BuildContext context, int index) {
+                return InkWell(
+                  child: Container(
+                      margin: const EdgeInsets.all(padding),
+                      padding: const EdgeInsets.all(padding),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(color: Colors.grey)),
+                      height: productListHeight / 2 - padding * 2,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.all(padding * 2),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Image.network(products[index].thumbnail,
+                                    height:
+                                        (productListHeight / 2 - padding * 2) *
+                                            3 /
+                                            4,
+                                    width: 300,
+                                    fit: BoxFit.fill),
+                              ],
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: <Widget>[
+                              Flexible(
+                                child: Container(
+                                  margin: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                                  child: Text(products[index].name,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                          fontSize: 20,
+                                          color: Color(0xff000000))),
+                                ),
+                              )
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: <Widget>[
+                              Flexible(
+                                child: Text(products[index].price.toString(),
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                        fontSize: 20, color: Colors.red)),
+                              )
+                            ],
+                          ),
+                        ],
+                      )),
+                  onTap: () {
+                    viewProductDetail(products[index]);
+                  },
+                );
+              },
             ),
-          ),
-          Container(
-            padding: EdgeInsets.only(top: 4, bottom: 4),
-            child: Row(
-              children: [
-                Text("Khuyến mãi"),
-                Spacer(),
-                Text(discountAmount.toString()),
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(top: 4, bottom: 4),
-            child: Row(
-              children: [
-                Text("Thuế"),
-                Spacer(),
-                Text(taxAmount.toString()),
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(top: 4, bottom: 8),
-            child: Row(
-              children: [
-                Text("Tổng tiền"),
-                Spacer(),
-                Text(totalAmount.toString()),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+          ));
+    },
+  );
 }

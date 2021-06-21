@@ -19,8 +19,8 @@ class Main extends StatelessWidget {
           height: size.height,
           child: Container(
             alignment: Alignment.topLeft,
-            margin: EdgeInsets.all(64),
-            padding: EdgeInsets.all(32),
+            margin: EdgeInsets.all(32),
+            padding: EdgeInsets.all(16),
             color: Colors.white,
             child: Row(children: [
               const Expanded(flex: 8, child: SectionList()),
@@ -49,7 +49,7 @@ class SectionList extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            height: (size.height - 180 - 64 * 2 - 32 * 2) / 3,
+            height: (size.height - 180 - 32 * 2 - 16 * 2) / 3,
             padding: EdgeInsets.only(top: 16, bottom: 8),
             child: Row(
               children: [
@@ -61,7 +61,7 @@ class SectionList extends StatelessWidget {
                         icon: Icon(
                           Icons.shopping_cart,
                           color: Colors.grey,
-                          size: 120.0,
+                          size: 80.0,
                         ))),
                 SizedBox(
                   width: 16,
@@ -74,13 +74,13 @@ class SectionList extends StatelessWidget {
                         icon: Icon(
                           Icons.store,
                           color: Colors.grey,
-                          size: 120.0,
+                          size: 80.0,
                         )))
               ],
             ),
           ),
           Container(
-            height: (size.height - 180 - 64 * 2 - 32 * 2) / 3,
+            height: (size.height - 180 - 32 * 2 - 16 * 2) / 3,
             padding: EdgeInsets.only(top: 8, bottom: 8),
             child: Row(
               children: [
@@ -92,7 +92,7 @@ class SectionList extends StatelessWidget {
                         icon: Icon(
                           Icons.shopping_cart,
                           color: Colors.grey,
-                          size: 120.0,
+                          size: 80.0,
                         ))),
                 SizedBox(
                   width: 16,
@@ -105,13 +105,13 @@ class SectionList extends StatelessWidget {
                         icon: Icon(
                           Icons.shopping_cart,
                           color: Colors.grey,
-                          size: 120.0,
+                          size: 80.0,
                         )))
               ],
             ),
           ),
           Container(
-            height: (size.height - 180 - 64 * 2 - 32 * 2) / 3,
+            height: (size.height - 180 - 32 * 2 - 16 * 2) / 3,
             padding: EdgeInsets.only(top: 8, bottom: 8),
             child: Row(
               children: [
@@ -123,7 +123,7 @@ class SectionList extends StatelessWidget {
                         icon: Icon(
                           Icons.shopping_cart,
                           color: Colors.grey,
-                          size: 120.0,
+                          size: 80.0,
                         ))),
                 SizedBox(
                   width: 16,
@@ -136,7 +136,7 @@ class SectionList extends StatelessWidget {
                         icon: Icon(
                           Icons.shopping_cart,
                           color: Colors.grey,
-                          size: 120.0,
+                          size: 80.0,
                         )))
               ],
             ),

@@ -38,8 +38,8 @@ class ProductPageState extends State<Product> {
           height: size.height,
           child: Container(
             alignment: Alignment.topLeft,
-            margin: EdgeInsets.all(64),
-            padding: EdgeInsets.all(32),
+            margin: EdgeInsets.all(32),
+            padding: EdgeInsets.all(16),
             color: Colors.white,
             child: Row(
               children: [
