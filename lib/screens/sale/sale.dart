@@ -260,7 +260,7 @@ class SalePageState extends State<Sale> {
       ],
     );
     final database = Provider.of<AppDatabase>(context);
-    database.insertCustomer(Customer(
+    database.customersDao.insertCustomer(Customer(
         id: 1,
         firstName: "Trần",
         lastName: "Trọng Kim",
@@ -522,7 +522,7 @@ StreamBuilder<List<Customer>> _buildCustomerList(BuildContext context) {
   final database = Provider.of<AppDatabase>(context);
 
   return StreamBuilder(
-    stream: database.watchAllCustomers(),
+    stream: database.customersDao.watchAllCustomers(),
     builder: (context, AsyncSnapshot<List<Customer>> snapshot) {
       final customers = snapshot.data ?? [];
       return ListView.separated(
@@ -596,7 +596,7 @@ StreamBuilder<List<Product>> _buildProductList(
   final database = Provider.of<AppDatabase>(context);
 
   return StreamBuilder(
-    stream: database.watchAllProducts(),
+    stream: database.productsDao.watchAllProducts(),
     builder: (context, AsyncSnapshot<List<Product>> snapshot) {
       final products = snapshot.data ?? [];
       final productListHeight = size.height - 64 * 2 - 32 * 2 - 160 - 80 - 100;

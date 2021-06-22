@@ -690,6 +690,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   late final $ProductsTable products = $ProductsTable(this);
   late final $CustomersTable customers = $CustomersTable(this);
+  late final ProductsDao productsDao = ProductsDao(this as AppDatabase);
+  late final CustomersDao customersDao = CustomersDao(this as AppDatabase);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
