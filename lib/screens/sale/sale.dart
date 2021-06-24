@@ -259,15 +259,15 @@ class SalePageState extends State<Sale> {
         )
       ],
     );
-    final database = Provider.of<AppDatabase>(context);
-    database.customersDao.insertCustomer(Customer(
-        id: 1,
-        firstName: "Trần",
-        lastName: "Trọng Kim",
-        phone: "0343538585",
-        address: "Quảng Phú",
-        avatar:
-            "https://noidangsong.vn/files/uploads/fb1735058496563345/1526444239-tt_avatar_small.jpg"));
+    // final database = Provider.of<AppDatabase>(context);
+    // database.customersDao.insertCustomer(Customer(
+    //     id: 3,
+    //     firstName: "Nguyễn Thị Phương",
+    //     lastName: "Nga",
+    //     phone: "0343538585",
+    //     address: "Quảng Phú",
+    //     avatar:
+    //         "https://noidangsong.vn/files/uploads/fb1735058496563345/1526444239-tt_avatar_small.jpg"));
     return Scaffold(
         appBar: buildAppBar(context, "BÁN HÀNG"),
         bottomNavigationBar: Footer(),

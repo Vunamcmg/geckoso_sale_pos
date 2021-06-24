@@ -12,6 +12,9 @@ class Customers extends Table {
   TextColumn get avatar => text()();
   TextColumn get phone => text()();
   TextColumn get address => text()();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+  DateTimeColumn get updatedAt => dateTime().withDefault(currentDateAndTime)();
+  DateTimeColumn get deletedAt => dateTime()();
 }
 
 @UseDao(tables: [Customers])

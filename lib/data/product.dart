@@ -10,6 +10,11 @@ class Products extends Table {
   TextColumn get thumbnail => text()();
   IntColumn get price => integer()();
   TextColumn get shortDescription => text()();
+  TextColumn get barCode => text().nullable()();
+  TextColumn get qrCode => text().nullable()();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+  DateTimeColumn get updatedAt => dateTime().withDefault(currentDateAndTime)();
+  DateTimeColumn get deletedAt => dateTime()();
 }
 
 @UseDao(tables: [Products])

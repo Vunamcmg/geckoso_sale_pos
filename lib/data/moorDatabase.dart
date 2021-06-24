@@ -1,12 +1,34 @@
 import "package:moor/moor.dart";
 import "package:moor_flutter/moor_flutter.dart";
 import 'package:pos/data/customer.dart';
+import 'package:pos/data/employee.dart';
+import 'package:pos/data/orderItem.dart';
 import 'package:pos/data/product.dart';
+import 'package:pos/data/order.dart';
+import 'package:pos/data/setting.dart';
+import 'package:pos/data/voucher.dart';
+import 'package:pos/screens/employee/employee.dart';
 
 part 'moorDatabase.g.dart';
 
 // This annotation tells the code generator which tables this DB works with
-@UseMoor(tables: [Products, Customers], daos: [ProductsDao, CustomersDao])
+@UseMoor(tables: [
+  Products,
+  Customers,
+  Employee,
+  Orders,
+  OrderItems,
+  Vouchers,
+  Settings
+], daos: [
+  ProductsDao,
+  CustomersDao,
+  EmployeesDao,
+  OrdersDao,
+  OrderItemsDao,
+  VouchersDao,
+  SettingsDao
+])
 // _$AppDatabase is the name of the generated class
 class AppDatabase extends _$AppDatabase {
   AppDatabase()
@@ -30,5 +52,8 @@ class AppDatabase extends _$AppDatabase {
             await migrator.createTable(customers);
           }
         },
+        // beforeOpen: (db, details) async {
+        //   await db.customStatement('PRAGMA foreign_keys = ON');
+        // },
       );
 }
